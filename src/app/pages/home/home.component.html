@@ -1,0 +1,9 @@
+<main class="home-container">
+  <div>
+    <form class="home-content-form">
+      <input placeholder="Enter a url." required type="url" [formControl]="url" />
+      <button type="submit">Send</button>
+    </form>
+    <p> Value: {{url.value}}</p>
+  </div>
+</main>

@@ -1,0 +1,29 @@
+.home-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-content-form {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+}
+
+.home-content-form input {
+  padding: .6em 1em;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.home-content-form button {
+  padding: .6em 1.2em;
+  border-radius: 5px;
+  border: 1px solid gray;
+  background-color: gray;
+}
+
+
