@@ -6,6 +6,29 @@
   align-items: center;
 }
 
+.home-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4em;
+  max-width: 800px;
+}
+
+.home-header h1 {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1em;
+}
+
+.home-header p {
+  margin-top: 2em;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1em;
+}
+
 .home-content-form {
   display: flex;
   flex-direction: row;
@@ -13,17 +36,37 @@
 }
 
 .home-content-form input {
-  padding: .6em 1em;
+  padding: 1em;
   display: block;
   border-radius: 5px;
   border: 1px solid gray;
+  min-width: 250px;
+  width: 300px;
+}
+
+.home-content-form input:focus {
+  outline: 2px solid #9fcca0;
 }
 
 .home-content-form button {
-  padding: .6em 1.2em;
+  padding: 1em 1.6em;
   border-radius: 5px;
-  border: 1px solid gray;
-  background-color: gray;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  outline: 0px solid black;
+  opacity: 1;
+  transition: outline 1s, opacity 1s;
 }
 
+.home-content-form button:hover {
+  opacity: 0.8;
+}
 
+.home-content-form button:focus {
+  outline: 3px solid #9fcca0;
+}
+
+.home-content-form .ng-touched.ng-invalid {
+  outline: 3px solid #d98f84;
+}

@@ -12,7 +12,8 @@
   --th-color: 0, 0%, 100%;
 }
 
-.th-bg {  background-color: hsla(var(--th-bg), var(--th-alpha));
+.th-bg {
+  background-color: hsla(var(--th-bg), var(--th-alpha));
 }
 
 .th-color {

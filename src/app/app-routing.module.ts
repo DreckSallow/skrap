@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePage } from './pages';
+import { DashboardPage, HomePage } from './pages';
 
 const routes: Routes = [
   {
     path: "",
+    title: "Skrap - website",
     component: HomePage
+  },
+  {
+    path: "dashboard",
+    title: "Dashbaord",
+    component: DashboardPage
   }
 ];
 
