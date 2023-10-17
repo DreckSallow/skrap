@@ -4,3 +4,31 @@
     <input [value]="url" />
   </div>
 </header>
+<section class="section">
+  <div class="section-content">
+    <header>
+      <button (click)="toggleDrawer()">New Query +</button>
+    </header>
+    <section>
+      <p *ngIf="queries.length > 0; else elseBlock">CONTENT</p>
+      <ng-template #elseBlock>You don't have queries yet.</ng-template>
+    </section>
+  </div>
+</section>
+<app-drawer [show]="showDrawer" (showChange)="closeDrawer()" title="Create Query">
+  <div class="section-modal-content">
+    <form class="section-modal-form" [formGroup]="queryForm" (ngSubmit)="queryForm.valid && createQuery()">
+      <div class="form-input">
+        <label>Query Name</label>
+        <input type="text" formControlName="queryName" />
+      </div>
+      <div class="form-input">
+        <label>Query Text</label>
+        <input type="text" formControlName="queryText" />
+      </div>
+      <div class="form-submit">
+        <button [disabled]="!queryForm.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</app-drawer>
