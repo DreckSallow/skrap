@@ -1,0 +1,6 @@
+<div class="drawer-back" *ngIf="show" (click)="closeDrawer()"></div>
+<div class="drawer th-bg" [class.show]="show">
+  <button class="drawer-close" (click)="closeDrawer()">X</button>
+  <header *ngIf="title">{{title}}</header>
+  <ng-content></ng-content>
+</div>
