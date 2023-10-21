@@ -10,8 +10,15 @@
       <button (click)="toggleDrawer()">New Query +</button>
     </header>
     <section>
-      <p *ngIf="queries.length > 0; else elseBlock">CONTENT</p>
-      <ng-template #elseBlock>You don't have queries yet.</ng-template>
+      <div class="section-queries">
+        <ng-container *ngIf="queries.length > 0; else elseBlock">
+          <div class="section-query-card" *ngFor="let query of queries">
+            <h4>{{query.name}}</h4>
+            <p>{{query.selector}}</p>
+          </div>
+        </ng-container>
+        <ng-template #elseBlock>You don't have queries yet.</ng-template>
+      </div>
     </section>
   </div>
 </section>
@@ -24,7 +31,11 @@
       </div>
       <div class="form-input">
         <label>Query Text</label>
-        <input type="text" formControlName="queryText" />
+        <input type="text" formControlName="queryText" (input)="queryHtml(query.value)" #query />
+      </div>
+      <div class="form-query-result">
+        <small>Output:</small>
+        <p>{{queryResult}}</p>
       </div>
       <div class="form-submit">
         <button [disabled]="!queryForm.valid">Submit</button>
