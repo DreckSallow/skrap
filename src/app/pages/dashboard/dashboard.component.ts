@@ -9,53 +9,10 @@ interface Query {
   selector: string;
 }
 
-
-const getHtml = () => `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Shop</title>
-</head>
-<body>
-    <nav>NAVBAR <span>TITLE</span></nav>
-    <header>
-        <h1>Welcome to Our Shop</h1>
-    </header>
-
-    <div class="product">
-        <img src="product1.jpg" alt="Product 1">
-        <h2>Product 1</h2>
-        <p>Price: $19.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <img src="product2.jpg" alt="Product 2">
-        <h2>Product 2</h2>
-        <p>Price: $24.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <img src="product3.jpg" alt="Product 3">
-        <h2>Product 3</h2>
-        <p>Price: $29.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <footer>
-        &copy; 2023 Simple Shop
-    </footer>
-</body>
-</html>
-`
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css', "./query_form.css"]
 })
 export default class DashboardComponent implements OnInit {
   url: string | null = null;
@@ -96,7 +53,7 @@ export default class DashboardComponent implements OnInit {
     this.queryResult = "";
   }
 
-  toggleDrawer() {
+  displayDrawer() {
     this.showDrawer = true;
   }
 
