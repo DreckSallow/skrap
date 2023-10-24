@@ -12,7 +12,7 @@ interface Query {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css', "./query_form.css"]
+  styleUrls: ['./dashboard.component.css']
 })
 export default class DashboardComponent implements OnInit {
   url: string | null = null;
