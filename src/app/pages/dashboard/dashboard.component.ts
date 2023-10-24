@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Extractor } from 'src/deps/extractor/pkg';
 const extractor = import("src/deps/extractor/pkg");
@@ -16,14 +16,20 @@ interface Query {
 })
 export default class DashboardComponent implements OnInit {
   url: string | null = null;
-  queries: Array<Query> = [];
-  queryForm = this.fb.group({
-    queryName: ["", [Validators.required]],
-    queryText: ["", Validators.required]
+  queriesList = this.fb.group({
+    queries: this.fb.array([
+      this.fb.group({
+        queryName: [""],
+        queryText: [""],
+        queryResult: "",
+        type: "simple"
+      })
+    ])
+  }, {
+    validators: [Validators.required]
   });
-  showDrawer = false;
-  queryResult = "";
   extractor: null | Extractor = null;
+  typeOfQueryForm = "simple";
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +39,6 @@ export default class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     extractor.then(({ Extractor }) => {
-      console.log("LOADED!");
       fetch(`http://localhost:8000/skrap?url=${this.url}`).then(async (r) => {
         this.extractor = Extractor.new(await r.text());
       }).catch((e) => {
@@ -47,32 +52,28 @@ export default class DashboardComponent implements OnInit {
     })
   }
 
-  closeDrawer() {
-    this.showDrawer = false;
-    this.queryForm.setValue({ queryName: "", queryText: "" });
-    this.queryResult = "";
+  get queries() {
+    return this.queriesList.get("queries") as FormArray
   }
 
-  displayDrawer() {
-    this.showDrawer = true;
+  queryHtml(ev: Event, index: number) {
+
+    if (!this.extractor || !ev.currentTarget) return;
+    const result = this.extractor.query((ev.currentTarget as HTMLInputElement).value);
+    const copyVal = this.queries.at(index).value;
+    this.queries.at(index).setValue({ ...copyVal, queryResult: result ?? "No data" });
+
+    console.log({
+      result,
+      index
+    })
   }
 
-  queryHtml(value: string) {
-    if (!this.extractor) return;
-    const result = this.extractor.query(value);
-    if (result) {
-      this.queryResult = result
-    } else {
-      this.queryResult = "Not Data."
-    }
-  }
-
-  createQuery() {
-    if (!this.queryForm.valid) return;
-    this.queries.push({
-      name: this.queryForm.value.queryName as string,
-      selector: this.queryForm.value.queryText as string
-    });
-    this.closeDrawer();
+  addQuery() {
+    this.queries.push(this.fb.group({
+      queryName: [""],
+      queryText: [""],
+      type: "simple"
+    }))
   }
 }

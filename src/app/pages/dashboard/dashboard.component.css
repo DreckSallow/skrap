@@ -15,50 +15,84 @@
   border: 1px solid gray;
 }
 
-.section {
+.content {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 1em 2em;
 }
 
-.section>div {
+.query-list {
+  width: 90%;
+  border: 1px solid #d9d6d6;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  justify-content: center;
-  width: 80%;
-  max-width: 1200px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.section-header {
+.query-list>.query-header,
+.box-query {
+  padding: 1em;
+}
+
+.query-header {
   display: flex;
-  justify-content: flex-end;
+  background-color: #fafafa;
+  border-bottom: 1px solid #d9d6d6;
 }
 
-.section-header button {
+.query-header button {
+  font-size: 0.8rem;
+  border-radius: 5px;
   background-color: black;
-  border-radius: 5px;
   color: white;
-  padding: 0.4em 0.8em;
+  padding: 0.5em 0.8em;
   cursor: pointer;
+  margin-left: auto;
 }
 
-.section-queries {
+.query-main {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  gap: 0.6em;
+  width: 100%;
   align-items: center;
-  gap: 1em;
-  flex-wrap: wrap;
-  border: 1px solid #d0d7de;
-  padding: 2em;
-  border-radius: 5px;
 }
 
-.section-query-card {
+.query-main>*:not(:last-child) {
+  border-bottom: 1px solid #d9d6d6;
+}
+
+.box-query {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  column-gap: 0.7em;
+}
+
+.box-query input {
   border-radius: 5px;
-  border: 1px solid gray;
-  padding: 0.5em;
+  border: 1px solid #d9d6d6;
+  padding: 0.6em 0.7em;
+}
+
+.box-query input:focus {
+  border: 1px solid #959393;
+  outline: 3px solid #d9d6d6;
+}
+
+.box-result {
+  border-radius: 5px;
+  border: 1px solid #d9d6d6;
+  background-color: #fafafa;
+  padding: 0.3em;
+}
+
+.box-result>small {
+  font-size: 0.6rem;
+  margin-bottom: 0.3em;
+}
+
+.box-result>p {
+  font-size: 0.9rem;
 }
