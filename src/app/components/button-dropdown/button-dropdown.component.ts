@@ -1,28 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-button-dropdown',
   templateUrl: './button-dropdown.component.html',
   styleUrls: ['./button-dropdown.component.css']
 })
-export class ButtonDropdownComponent implements OnInit {
+export class ButtonDropdownComponent {
   @Input() items: string[] = [];
-  @Output() select = new EventEmitter<string>();
-  selectedItem = this.items[0] || "";
+  @Output() select = new EventEmitter<number>();
+  @Input() selectedIndex!: number;
   showDropdown = false;
-
-  ngOnInit(): void {
-    this.selectedItem = this.items[0] ?? "";
-  }
-
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
-  clickItem() {
-    this.select.emit(this.selectedItem);
+  get selected() {
+    return this.items[this.selectedIndex];
   }
-  selectItem(item: string) {
-    this.selectedItem = item;
+  clickItem() {
+    this.select.emit(this.selectedIndex);
+  }
+  selectItem(index: number) {
+    this.selectedIndex = index;
     this.showDropdown = false;
     this.clickItem();
   }
