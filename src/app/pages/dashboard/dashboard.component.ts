@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Extractor } from 'src/deps/extractor/pkg';
 const extractor = import("src/deps/extractor/pkg");
 
-interface Query {
+interface QueryEntry {
   name: string;
-  selector: string;
+  open: boolean,
+  isList: boolean,
+  content: Array<{
+    name: FormControl<string | null>,
+    selector: FormControl<string | null>,
+    result: string | null
+  }>;
 }
 
 @Component({
@@ -16,20 +22,9 @@ interface Query {
 })
 export default class DashboardComponent implements OnInit {
   url: string | null = null;
-  queriesList = this.fb.group({
-    queries: this.fb.array([
-      this.fb.group({
-        queryName: [""],
-        queryText: [""],
-        queryResult: "",
-        type: "simple"
-      })
-    ])
-  }, {
-    validators: [Validators.required]
-  });
+  queriesList: QueryEntry[] = [];
   extractor: null | Extractor = null;
-  typeOfQueryForm = "simple";
+  typesOfQuery = ["group", "array"];
 
   constructor(
     private route: ActivatedRoute,
@@ -51,29 +46,50 @@ export default class DashboardComponent implements OnInit {
       this.url = params.get("url");
     })
   }
-
-  get queries() {
-    return this.queriesList.get("queries") as FormArray
-  }
-
-  queryHtml(ev: Event, index: number) {
-
+  queryHtml(ev: Event, index: number, entryI: number) {
     if (!this.extractor || !ev.currentTarget) return;
     const result = this.extractor.query((ev.currentTarget as HTMLInputElement).value);
-    const copyVal = this.queries.at(index).value;
-    this.queries.at(index).setValue({ ...copyVal, queryResult: result ?? "No data" });
+    this.queriesList[index].content[entryI].result = result ?? null;
+  }
 
-    console.log({
-      result,
-      index
+  toggleQueryInfo(el: EventTarget | null) {
+    let queryIndex = (el as HTMLElement | null)?.getAttribute("query-box-index");
+    if (!queryIndex) return;
+    this.queriesList[Number(queryIndex)].open = !this.queriesList[Number(queryIndex)].open
+  }
+
+  changeQueryType(n: number, index: number) {
+    const prev = this.queriesList[index];
+    this.queriesList[index] = {
+      name: prev.name,
+      open: prev.open,
+      isList: false,
+      content: [{
+        name: new FormControl(""),
+        selector: new FormControl(""),
+        result: null
+      }],
+    }
+  }
+
+  newEntryQuery(index: number) {
+    this.queriesList[index].content.push({
+      name: new FormControl(""),
+      selector: new FormControl(""),
+      result: null
     })
   }
 
   addQuery() {
-    this.queries.push(this.fb.group({
-      queryName: [""],
-      queryText: [""],
-      type: "simple"
-    }))
+    this.queriesList.push({
+      name: "Nuevo",
+      open: true,
+      isList: false,
+      content: [{
+        name: new FormControl(""),
+        selector: new FormControl(""),
+        result: null
+      }],
+    })
   }
 }

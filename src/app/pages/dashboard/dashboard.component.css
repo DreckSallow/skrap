@@ -1,3 +1,13 @@
+button {
+  font-size: 0.8rem;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  padding: 0.5em 0.8em;
+  cursor: pointer;
+  margin-left: auto;
+}
+
 .header {
   width: 100vw;
   padding: 2em 3em 2em 1em;
@@ -21,17 +31,21 @@
 }
 
 .query-list {
-  width: 90%;
+  width: 70%;
   border: 1px solid #d9d6d6;
   margin: auto;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  overflow: hidden;
+}
+
+.query-main>li {
+  width: 100%;
 }
 
 .query-list>.query-header,
-.box-query {
+.box-query,
+.query-dropdown {
   padding: 1em;
 }
 
@@ -39,16 +53,6 @@
   display: flex;
   background-color: #fafafa;
   border-bottom: 1px solid #d9d6d6;
-}
-
-.query-header button {
-  font-size: 0.8rem;
-  border-radius: 5px;
-  background-color: black;
-  color: white;
-  padding: 0.5em 0.8em;
-  cursor: pointer;
-  margin-left: auto;
 }
 
 .query-main {
@@ -66,33 +70,55 @@
 .box-query {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 0.6fr 1fr 0.6fr 1fr;
   column-gap: 0.7em;
+  align-items: center;
+  justify-items: center;
 }
 
-.box-query input {
+.box-input input {
+  font-weight: normal;
+  font-size: 1rem;
   border-radius: 5px;
   border: 1px solid #d9d6d6;
   padding: 0.6em 0.7em;
+  margin-top: 0.3em;
 }
 
-.box-query input:focus {
+.box-input input:focus {
   border: 1px solid #959393;
   outline: 3px solid #d9d6d6;
 }
 
-.box-result {
-  border-radius: 5px;
-  border: 1px solid #d9d6d6;
-  background-color: #fafafa;
-  padding: 0.3em;
+.query-dropdown {
+  width: 100%;
 }
 
-.box-result>small {
-  font-size: 0.6rem;
-  margin-bottom: 0.3em;
+.query-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
+
+.query-dropdown-group {
+  display: grid;
+  grid-template-columns: 0.5fr 0.8fr 1fr;
+  column-gap: 0.6em;
+}
+
+.box-result {
+  width: 100%;
+  height: 100%;
 }
 
 .box-result>p {
+  margin-top: 0.3em;
   font-size: 0.9rem;
+  border-radius: 5px;
+  border: 1px solid #d9d6d6;
+  background-color: #fafafa;
+  padding: 0.7em;
+  min-height: 40px;
+  max-height: 250px;
+  overflow-y: auto;
 }

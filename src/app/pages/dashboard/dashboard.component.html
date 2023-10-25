@@ -6,23 +6,40 @@
 </header>
 
 <section class="content">
-  <div [formGroup]="queriesList" class="query-list">
+  <div class="query-list">
     <header class="query-header">
       <button (click)="addQuery()">Add Query +</button>
     </header>
-    <ul class="query-main" formArrayName="queries">
-      <li *ngFor="let query of queries.controls;let i=index" [formGroupName]="i" class="box-query">
-        <div class="box-input">
-          <input formControlName="queryName" />
+    <ul class="query-main" (click)="toggleQueryInfo($event.target)">
+      <li *ngFor="let query of queriesList; index as i">
+        <div class="box-query">
+          <div class="box-input">
+            <h3>{{query.name}}</h3>
+          </div>
+          <p>{{query.isList ? "List":"Group"}}</p>
+          <p>Entries: {{query.content.length}}</p>
+          <button [attr.query-box-index]="i">{{query.open ? "Close":"Open"}}</button>
         </div>
-        <div class="box-input">
-          <input formControlName="queryText" (input)="queryHtml($event,i)" />
-        </div>
-        <div class="box-result">
-          <!--<small>Preview</small>-->
-          <p>
-            Type: {{query.value.queryResult}}
-          </p>
+        <div class="query-dropdown" *ngIf="query.open">
+          <div class="query-dropdown-header">
+            <button (click)="newEntryQuery(i)">New</button>
+          </div>
+          <div class="query-dropdown-content">
+            <div *ngFor="let entry of query.content,index as entryI" class="query-dropdown-group">
+              <div class="box-input">
+                <input [formControl]="entry.name" />
+              </div>
+              <div class="box-input">
+                <input [formControl]="entry.selector" (input)="queryHtml($event,i,entryI)" />
+              </div>
+              <div class="box-result">
+                <p>
+                  <small>Preview:</small>
+                  {{entry.result ?? "No data"}}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
     </ul>
