@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Extractor } from 'src/deps/extractor/pkg';
 const extractor = import("src/deps/extractor/pkg");
@@ -28,7 +28,6 @@ export default class DashboardComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder
   ) {
   }
 
@@ -58,17 +57,11 @@ export default class DashboardComponent implements OnInit {
     this.queriesList[Number(queryIndex)].open = !this.queriesList[Number(queryIndex)].open
   }
 
-  changeQueryType(n: number, index: number) {
-    const prev = this.queriesList[index];
-    this.queriesList[index] = {
-      name: prev.name,
-      open: prev.open,
-      isList: false,
-      content: [{
-        name: new FormControl(""),
-        selector: new FormControl(""),
-        result: null
-      }],
+  queyMenu(action: "remove" | "clean", qi: number) {
+    if (action == "remove") {
+      this.queriesList.splice(qi, 1);
+    } else if (action == "clean") {
+      this.queriesList[qi].content = [];
     }
   }
 
@@ -91,5 +84,9 @@ export default class DashboardComponent implements OnInit {
         result: null
       }],
     })
+  }
+
+  removeEntry(i: number, entryI: number) {
+    this.queriesList[i].content.splice(entryI, 1);
   }
 }

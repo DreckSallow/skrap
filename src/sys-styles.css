@@ -1,3 +1,15 @@
+button {
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 :root {
   --th-alpha: 1;
 }

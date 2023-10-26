@@ -19,6 +19,15 @@
           <p>{{query.isList ? "List":"Group"}}</p>
           <p>Entries: {{query.content.length}}</p>
           <button [attr.query-box-index]="i">{{query.open ? "Close":"Open"}}</button>
+          <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
+            <p trigger>...</p>
+            <ng-container content>
+              <ul class="query-opt-menu">
+                <li (click)="queyMenu('remove',i)">Delete</li>
+                <li (click)="queyMenu('clean',i)">Clean</li>
+              </ul>
+            </ng-container>
+          </box-overlay>
         </div>
         <div class="query-dropdown" *ngIf="query.open">
           <div class="query-dropdown-header">
@@ -37,6 +46,9 @@
                   <small>Preview:</small>
                   {{entry.result ?? "No data"}}
                 </p>
+              </div>
+              <div class="flex-center">
+                <button (click)="removeEntry(i,entryI)">x</button>
               </div>
             </div>
           </div>
