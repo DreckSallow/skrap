@@ -1,0 +1,11 @@
+.button {
+  border-radius: var(--th-size-md);
+  padding: var(--th-size-sm) var(--th-size-md);
+  cursor: pointer;
+}
+
+
+.badge {
+  border-radius: var(--th-size-sm);
+  padding: var(--th-size-xs) var(--th-size-md);
+}
