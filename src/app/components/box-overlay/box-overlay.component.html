@@ -2,7 +2,8 @@
   <div (click)="toggleShow($event)" #triggerEl>
     <ng-content select="[trigger]"></ng-content>
   </div>
-  <div class="box-overlay-content th-bg" *ngIf="show" appClickOutside (outClick)="hidden()">
+  <div class="box-overlay-content th-bg" *ngIf="show" appClickOutside (outClick)="hidden()"
+    (click)="hiddenClick($event.target)">
     <ng-content select="[content]"></ng-content>
   </div>
 </div>

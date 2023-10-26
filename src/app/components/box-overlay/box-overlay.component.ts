@@ -1,7 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
-type BoxOverlayMode = "hover" | "click";
-
 @Component({
   selector: 'box-overlay',
   templateUrl: './box-overlay.component.html',
@@ -9,8 +7,16 @@ type BoxOverlayMode = "hover" | "click";
 })
 export class BoxOverlayComponent {
   @ViewChild("triggerEl") triggerEl!: ElementRef;
-  @Input() mode: BoxOverlayMode = "click";
+  @Input() hiddenOnClick: boolean = true;
+  @Input() hiddenOnTag: string = "";
   show = false;
+
+  hiddenClick(target: EventTarget | null) {
+    const tag = target ? (target as HTMLElement).tagName : "";
+    if (this.hiddenOnClick && this.hiddenOnTag == tag) {
+      this.hidden();
+    }
+  }
 
   hidden() {
     this.show = false;
