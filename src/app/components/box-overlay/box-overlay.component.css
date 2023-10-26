@@ -1,0 +1,13 @@
+.box-overlay {
+  position: relative;
+  background-color: white;
+}
+
+.box-overlay-content {
+  z-index: 20;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(0%, 102%);
+  padding: 0.4em;
+}
