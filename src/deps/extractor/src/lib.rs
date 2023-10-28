@@ -1,11 +1,6 @@
 use scraper::{Html, Selector};
 use wasm_bindgen::prelude::*;
 
-#[was_bindgen]
-pub fn greet(name: &str) -> String {
-    format!("Hola {}", name)
-}
-
 #[wasm_bindgen]
 pub struct Extractor {
     document: Html,
@@ -24,5 +19,10 @@ impl Extractor {
         let one_sel = selects.next()?;
         let s = one_sel.text().collect::<String>();
         Some(s)
+    }
+    pub fn query_all_count(&self, selector_str: &str) -> Option<u32> {
+        let selector = Selector::parse(selector_str).ok()?;
+        let mut selects = self.document.select(&selector);
+        Some(selects.count() as u32)
     }
 }
