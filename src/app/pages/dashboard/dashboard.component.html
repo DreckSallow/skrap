@@ -8,7 +8,8 @@
 <section class="content">
   <div class="query-list">
     <header class="query-header">
-      <button (click)="addQuery()">Add Query +</button>
+      <button class="button" (click)="addQuery()">Add Query <app-icon name="+" width="16px" height="16px"
+          fill="white"></app-icon></button>
     </header>
     <ul class="query-main" (click)="toggleQueryInfo($event.target)">
       <li *ngFor="let query of queriesList; index as i">
@@ -16,11 +17,12 @@
           <div class="box-input">
             <h3>{{query.name}}</h3>
           </div>
-          <p>{{query.isList ? "List":"Group"}}</p>
+          <button class="badge pointer" [class.list]="query.type=='list'"
+            (click)="toggleType(i)">{{query.type}}</button>
           <p>Entries: {{query.content.length}}</p>
-          <button [attr.query-box-index]="i">{{query.open ? "Close":"Open"}}</button>
+          <button [attr.query-box-index]="i" class="button">{{query.open ? "Close":"Open"}}</button>
           <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
-            <p trigger>...</p>
+            <app-icon name="dots-horizontal" height="18px" width="18px" trigger></app-icon>
             <ng-container content>
               <ul class="query-opt-menu">
                 <li (click)="queyMenu('remove',i)">Delete</li>
@@ -30,16 +32,21 @@
           </box-overlay>
         </div>
         <div class="query-dropdown" *ngIf="query.open">
-          <div class="query-dropdown-header">
-            <button (click)="newEntryQuery(i)">New</button>
+          <div *ngIf="query.type=='list'" class="query-type-list">
+            <span>Parent selector:</span>
+            <input [formControl]="$any(query).parentSelector" class="input-style"
+              (input)="queryCount($event.target,i)" />
+            <p>
+              Total count: {{query.count}}
+            </p>
           </div>
           <div class="query-dropdown-content">
             <div *ngFor="let entry of query.content,index as entryI" class="query-dropdown-group">
               <div class="box-input">
-                <input [formControl]="entry.name" />
+                <input [formControl]="entry.name" class="input-style" />
               </div>
               <div class="box-input">
-                <input [formControl]="entry.selector" (input)="queryHtml($event,i,entryI)" />
+                <input [formControl]="entry.selector" (input)="queryHtml($event,i,entryI)" class="input-style" />
               </div>
               <div class="box-result">
                 <p>
@@ -47,10 +54,16 @@
                   {{entry.result ?? "No data"}}
                 </p>
               </div>
-              <div class="flex-center">
-                <button (click)="removeEntry(i,entryI)">x</button>
+              <div class="flex-center remove-entry-button">
+                <button (click)="removeEntry(i,entryI)" class="button">
+                  <app-icon name="x" fill="white" height="18px" width="18px">
+                  </app-icon>
+                </button>
               </div>
             </div>
+          </div>
+          <div>
+            <button (click)="newEntryQuery(i)" class="button">New</button>
           </div>
         </div>
       </li>

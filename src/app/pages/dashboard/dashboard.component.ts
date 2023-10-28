@@ -7,13 +7,16 @@ const extractor = import("src/deps/extractor/pkg");
 interface QueryEntry {
   name: string;
   open: boolean,
-  isList: boolean,
+  type: QueryType,
+  parentSelector: FormControl<string | null> | null,
+  count: number,
   content: Array<{
     name: FormControl<string | null>,
     selector: FormControl<string | null>,
     result: string | null
   }>;
 }
+type QueryType = "group" | "list";
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +27,6 @@ export default class DashboardComponent implements OnInit {
   url: string | null = null;
   queriesList: QueryEntry[] = [];
   extractor: null | Extractor = null;
-  typesOfQuery = ["group", "array"];
 
   constructor(
     private route: ActivatedRoute,
@@ -45,10 +47,41 @@ export default class DashboardComponent implements OnInit {
       this.url = params.get("url");
     })
   }
+
+  queryData(selector: string, parentSelector?: string | null) {
+    const val = parentSelector ? parentSelector.concat(" ", selector) : selector;
+    return this.extractor?.query(val);
+  }
+
+  queryDataMut([i, entryI]: [number, number], selector: string) {
+    const groupQuery = this.queriesList.at(i);
+    const queryInfo = groupQuery?.content.at(entryI)
+    if (queryInfo == undefined && queryInfo == undefined) return;
+    let result: string | undefined;
+    if (this.queriesList[i].type == "list") {
+      result = this.queryData(selector, groupQuery?.parentSelector?.value) ?? "No data";
+    } else {
+      result = this.queryData(selector);
+    }
+    this.queriesList[i].content[entryI].result = result ?? null;
+  }
+
+  queryCount(el: EventTarget | null, i: number) {
+    const val = (el as HTMLInputElement)?.value;
+    const result = this.extractor?.query_all_count(val);
+    if (result === undefined) return;
+    const selectors = this.queriesList[i].content.map(({ selector }) => selector.value);
+    selectors.forEach((selector, entryI) => {
+      if (!selector) return;
+      this.queryDataMut([i, entryI], selector);
+    })
+    this.queriesList[i].count = result
+  }
+
   queryHtml(ev: Event, index: number, entryI: number) {
     if (!this.extractor || !ev.currentTarget) return;
-    const result = this.extractor.query((ev.currentTarget as HTMLInputElement).value);
-    this.queriesList[index].content[entryI].result = result ?? null;
+    const value = (ev.currentTarget as HTMLInputElement).value;
+    this.queryDataMut([index, entryI], value);
   }
 
   toggleQueryInfo(el: EventTarget | null) {
@@ -57,12 +90,21 @@ export default class DashboardComponent implements OnInit {
     this.queriesList[Number(queryIndex)].open = !this.queriesList[Number(queryIndex)].open
   }
 
-  queyMenu(action: "remove" | "clean", qi: number) {
-    if (action == "remove") {
-      this.queriesList.splice(qi, 1);
-    } else if (action == "clean") {
-      this.queriesList[qi].content = [];
+  toggleType(i: number) {
+    const queryType = this.queriesList[i].type;
+    if (queryType === "group") {
+      this.queriesList[i].type = "list";
+      this.queriesList[i].parentSelector = new FormControl("")
     }
+    else {
+      this.queriesList[i].type = "group";
+      this.queriesList[i].parentSelector = null
+    }
+  }
+
+  queyMenu(action: "remove" | "clean", qi: number) {
+    if (action == "remove") this.queriesList.splice(qi, 1);
+    else if (action == "clean") this.queriesList[qi].content = [];
   }
 
   newEntryQuery(index: number) {
@@ -77,7 +119,9 @@ export default class DashboardComponent implements OnInit {
     this.queriesList.push({
       name: "Nuevo",
       open: true,
-      isList: false,
+      type: "group",
+      count: 0,
+      parentSelector: null,
       content: [{
         name: new FormControl(""),
         selector: new FormControl(""),
