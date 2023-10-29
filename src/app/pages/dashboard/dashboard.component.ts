@@ -1,22 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Extractor } from 'src/deps/extractor/pkg';
+import { QueryGroup, QueryInfo } from 'src/utils';
 const extractor = import("src/deps/extractor/pkg");
-
-interface QueryEntry {
-  name: string;
-  open: boolean,
-  type: QueryType,
-  parentSelector: FormControl<string | null> | null,
-  count: number,
-  content: Array<{
-    name: FormControl<string | null>,
-    selector: FormControl<string | null>,
-    result: string | null
-  }>;
-}
-type QueryType = "group" | "list";
 
 @Component({
   selector: 'app-dashboard',
@@ -25,13 +11,12 @@ type QueryType = "group" | "list";
 })
 export default class DashboardComponent implements OnInit {
   url: string | null = null;
-  queriesList: QueryEntry[] = [];
+  queriesList: QueryGroup[] = [];
   extractor: null | Extractor = null;
 
   constructor(
     private route: ActivatedRoute,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     extractor.then(({ Extractor }) => {
@@ -55,21 +40,22 @@ export default class DashboardComponent implements OnInit {
 
   queryDataMut([i, entryI]: [number, number], selector: string) {
     const groupQuery = this.queriesList.at(i);
-    const queryInfo = groupQuery?.content.at(entryI)
+    const queryInfo = groupQuery?.getQuery(entryI);
     if (queryInfo == undefined && queryInfo == undefined) return;
     let result: string | undefined;
     if (this.queriesList[i].type == "list") {
-      result = this.queryData(selector, groupQuery?.parentSelector?.value) ?? "No data";
+      result = this.queryData(selector, groupQuery?.parentSelector) ?? "No data";
     } else {
       result = this.queryData(selector);
     }
-    this.queriesList[i].content[entryI].result = result ?? null;
+    this.queriesList[i].getQuery(entryI)!.result = result ?? null;
   }
 
   queryCount(el: EventTarget | null, i: number) {
     const val = (el as HTMLInputElement)?.value;
     const result = this.extractor?.query_all_count(val);
-    const selectors = this.queriesList[i].content.map(({ selector }) => selector.value);
+    this.queriesList[i].parentSelector = val;
+    const selectors = this.queriesList[i].queries.map(({ selector }) => selector.value);
     selectors.forEach((selector, entryI) => {
       if (!selector) return;
       this.queryDataMut([i, entryI], selector);
@@ -90,16 +76,8 @@ export default class DashboardComponent implements OnInit {
   }
 
   toggleType(i: number) {
-    const queryType = this.queriesList[i].type;
-    if (queryType === "group") {
-      this.queriesList[i].type = "list";
-      this.queriesList[i].parentSelector = new FormControl("")
-    }
-    else {
-      this.queriesList[i].type = "group";
-      this.queriesList[i].parentSelector = null
-    }
-    const selectors = this.queriesList[i].content.map(({ selector }) => selector.value);
+    this.queriesList[i].toggleType();
+    const selectors = this.queriesList[i].queries.map(({ selector }) => selector.value);
     selectors.forEach((selector, entryI) => {
       this.queryDataMut([i, entryI], selector ?? "");
     })
@@ -107,33 +85,20 @@ export default class DashboardComponent implements OnInit {
 
   queyMenu(action: "remove" | "clean", qi: number) {
     if (action == "remove") this.queriesList.splice(qi, 1);
-    else if (action == "clean") this.queriesList[qi].content = [];
+    else if (action == "clean") this.queriesList[qi].removeAllQueries();
   }
 
   newEntryQuery(index: number) {
-    this.queriesList[index].content.push({
-      name: new FormControl(""),
-      selector: new FormControl(""),
-      result: null
-    })
+    this.queriesList[index].addQuery(new QueryInfo(""))
   }
 
   addQuery() {
-    this.queriesList.push({
-      name: "Nuevo",
-      open: true,
-      type: "group",
-      count: 0,
-      parentSelector: null,
-      content: [{
-        name: new FormControl(""),
-        selector: new FormControl(""),
-        result: null
-      }],
-    })
+    const queryGroup = new QueryGroup("Nuevo", true, "group");
+    queryGroup.addQuery(new QueryInfo(""));
+    this.queriesList.push(queryGroup);
   }
 
   removeEntry(i: number, entryI: number) {
-    this.queriesList[i].content.splice(entryI, 1);
+    this.queriesList[i].removeQuery(entryI);
   }
 }

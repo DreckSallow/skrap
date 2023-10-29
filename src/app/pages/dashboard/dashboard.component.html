@@ -19,7 +19,7 @@
           </div>
           <button class="badge pointer" [class.list]="query.type=='list'"
             (click)="toggleType(i)">{{query.type}}</button>
-          <p>inputs: {{query.content.length}}</p>
+          <p>inputs: {{query.queries.length}}</p>
           <button [attr.query-box-index]="i" class="button">{{query.open ? "Close":"Open"}}</button>
           <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
             <app-icon name="dots-horizontal" height="18px" width="18px" trigger></app-icon>
@@ -34,14 +34,13 @@
         <div class="query-dropdown" *ngIf="query.open">
           <div *ngIf="query.type=='list'" class="query-type-list">
             <span>Parent selector:</span>
-            <input [formControl]="$any(query).parentSelector" class="input-style"
-              (input)="queryCount($event.target,i)" />
+            <input [formControl]="$any(query).parentSel" class="input-style" (input)="queryCount($event.target,i)" />
             <p>
               Total count: {{query.count}}
             </p>
           </div>
           <div class="query-dropdown-content">
-            <div *ngFor="let entry of query.content,index as entryI" class="query-dropdown-group">
+            <div *ngFor="let entry of query.queries,index as entryI" class="query-dropdown-group">
               <div class="box-input">
                 <input [formControl]="entry.name" class="input-style" />
               </div>
