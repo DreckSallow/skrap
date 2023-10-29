@@ -18,14 +18,28 @@ export class QueryGroup {
     if (this.type == "list") this._parentSelector = new FormControl("") as FormControl<string>;
     else this._parentSelector = null;
   }
+  get parentSel() {
+    return this._parentSelector
+  }
   get parentSelector() {
-    return this._parentSelector?.value ?? null
+    return this._parentSelector?.value ?? null;
   }
   set parentSelector(val: string | null) {
-    this._parentSelector = val ? new FormControl(val) as FormControl<string> : null;
+    this._parentSelector = typeof val === "string" ? new FormControl(val) as FormControl<string> : null;
   }
   get queries() {
     return this._queries
+  }
+  toggleType() {
+    const queryType = this.type;
+    if (queryType === "group") {
+      this.type = "list";
+      this.parentSelector = "";
+    }
+    else {
+      this.type = "group";
+      this._parentSelector = null
+    }
   }
 
   getQuery(i: number) {
