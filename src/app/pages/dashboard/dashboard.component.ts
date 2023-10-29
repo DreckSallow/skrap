@@ -69,13 +69,12 @@ export default class DashboardComponent implements OnInit {
   queryCount(el: EventTarget | null, i: number) {
     const val = (el as HTMLInputElement)?.value;
     const result = this.extractor?.query_all_count(val);
-    if (result === undefined) return;
     const selectors = this.queriesList[i].content.map(({ selector }) => selector.value);
     selectors.forEach((selector, entryI) => {
       if (!selector) return;
       this.queryDataMut([i, entryI], selector);
     })
-    this.queriesList[i].count = result
+    this.queriesList[i].count = result ?? 0;
   }
 
   queryHtml(ev: Event, index: number, entryI: number) {
@@ -100,6 +99,10 @@ export default class DashboardComponent implements OnInit {
       this.queriesList[i].type = "group";
       this.queriesList[i].parentSelector = null
     }
+    const selectors = this.queriesList[i].content.map(({ selector }) => selector.value);
+    selectors.forEach((selector, entryI) => {
+      this.queryDataMut([i, entryI], selector ?? "");
+    })
   }
 
   queyMenu(action: "remove" | "clean", qi: number) {

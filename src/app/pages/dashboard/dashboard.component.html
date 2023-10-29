@@ -19,7 +19,7 @@
           </div>
           <button class="badge pointer" [class.list]="query.type=='list'"
             (click)="toggleType(i)">{{query.type}}</button>
-          <p>Entries: {{query.content.length}}</p>
+          <p>inputs: {{query.content.length}}</p>
           <button [attr.query-box-index]="i" class="button">{{query.open ? "Close":"Open"}}</button>
           <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
             <app-icon name="dots-horizontal" height="18px" width="18px" trigger></app-icon>
