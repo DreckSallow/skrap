@@ -1,6 +1,5 @@
-button {
+.pointer {
   cursor: pointer;
-  border-radius: 5px;
 }
 
 
@@ -9,6 +8,7 @@ button {
   justify-content: center;
   align-items: center;
 }
+
 
 :root {
   --th-alpha: 1;
