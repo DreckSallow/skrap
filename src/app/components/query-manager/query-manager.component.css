@@ -1,0 +1,66 @@
+input {
+  border: 1px solid gray;
+  border-radius: var(--th-size-sm);
+  padding: var(--th-size-sm);
+}
+
+.qm-content {
+  border: 1px solid gray;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.qm-header {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+}
+
+.qm-header button {
+  font-size: 0.850rem;
+  margin-left: auto;
+  display: flex;
+  gap: 0.3em;
+}
+
+.qm-item-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7em;
+  padding: 1em;
+}
+
+.qm-item-dropdown {
+  padding: 1em;
+}
+
+.qm-item-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.qm-item-dropdown-content>button {
+  font-size: 0.850rem;
+  margin-top: 0.5em;
+  padding-top: var(--th-size-lm);
+  padding-bottom: var(--th-size-lm);
+}
+
+.qm-item-dropdown-group {
+  /*display: flex;
+  gap: 0.3em;
+  align-items: center;
+  justify-content: space-between;*/
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 0.4fr;
+  column-gap: 0.6em;
+}
+
+.qm-item-dropdown-group>button {
+  background-color: #db503d;
+  border-radius: 100%;
+}
