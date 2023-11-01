@@ -4,17 +4,17 @@
       Add Query <app-icon name="+" width="16px" height="16px" fill="white"></app-icon>
     </button>
   </header>
-  <ul class="qm-list" (click)="toggleQueryInfo($event.target)">
+  <ul class="qm-list">
     <li *ngFor="let query of queriesList; index as i">
-      <div class="qm-item-box">
+      <div class="qm-item-box" (click)="query.toggleOpen()">
         <h3>{{query.name}}</h3>
-        <button class="badge pointer" [class.list]="query.type=='list'" (click)="toggleType(i)">{{query.type}}</button>
-        <p>inputs: {{query.queries.length}}</p>
-        <button [attr.query-box-index]="i" class="button">{{query.open ? "Close":"Open"}}</button>
+        <button class="badge pointer" [class.list]="query.type=='list'"
+          (click)="toggleType($event,i)">{{query.type}}</button>
+        <p>Input Count: {{query.queries.length}}</p>
         <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
           <app-icon name="dots-horizontal" height="18px" width="18px" trigger></app-icon>
           <ng-container content>
-            <ul class="query-opt-menu">
+            <ul class="qm-opt-menu">
               <li (click)="queyMenu('remove',i)">Delete</li>
               <li (click)="queyMenu('clean',i)">Clean</li>
             </ul>
@@ -34,7 +34,6 @@
             <input [formControl]="entry.name" class="input-style" />
             <input [formControl]="entry.selector" (input)="queryHtml($event,i,entryI)" class="input-style" />
             <p>
-              <small>Preview:</small>
               {{entry.result ?? "No data"}}
             </p>
             <button (click)="removeEntry(i,entryI)" class="button">

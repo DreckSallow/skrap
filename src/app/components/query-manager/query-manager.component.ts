@@ -47,13 +47,8 @@ export class QueryManagerComponent {
     this.queryDataMut([index, entryI], value);
   }
 
-  toggleQueryInfo(el: EventTarget | null) {
-    let queryIndex = (el as HTMLElement | null)?.getAttribute("query-box-index");
-    if (!queryIndex) return;
-    this.queriesList[Number(queryIndex)].open = !this.queriesList[Number(queryIndex)].open
-  }
-
-  toggleType(i: number) {
+  toggleType(_ev: Event, i: number) {
+    // ev.stopPropagation();
     this.queriesList[i].toggleType();
     const selectors = this.queriesList[i].queries.map(({ selector }) => selector.value);
     selectors.forEach((selector, entryI) => {
