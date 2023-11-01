@@ -54,6 +54,9 @@ export class QueryGroup {
   removeAllQueries() {
     this._queries = [];
   }
+  toggleOpen() {
+    this.open = !this.open;
+  }
 }
 
 
