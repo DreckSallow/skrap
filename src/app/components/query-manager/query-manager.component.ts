@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Extractor } from 'src/deps/extractor/pkg/extractor';
-import { QueryGroup, QueryInfo } from 'src/utils';
+import { QueryGroup, QueryGroupType, QueryInfo } from 'src/utils';
 
 @Component({
   selector: 'app-query-manager',
@@ -10,6 +11,13 @@ import { QueryGroup, QueryInfo } from 'src/utils';
 export class QueryManagerComponent {
   @Input({ required: true }) extractor!: Extractor | null;
   queriesList: QueryGroup[] = [];
+  queryForm = {
+    show: false,
+    form: new FormGroup({
+      name: new FormControl("", Validators.required),
+      type: new FormControl("group")
+    })
+  };
 
   queryData(selector: string, parentSelector?: string | null) {
     const val = parentSelector ? parentSelector.concat(" ", selector) : selector;
@@ -65,13 +73,29 @@ export class QueryManagerComponent {
     this.queriesList[index].addQuery(new QueryInfo(""))
   }
 
-  addQuery() {
-    const queryGroup = new QueryGroup("Nuevo", true, "group");
-    queryGroup.addQuery(new QueryInfo(""));
+  createQuery() {
+    if (!this.queryForm.form.valid) return;
+    const { name, type } = this.queryForm.form.value;
+    if (name == undefined && type == undefined) return;
+    const queryGroup = new QueryGroup(name as string, true, type as QueryGroupType);
     this.queriesList.push(queryGroup);
+    this.cleanQueryForm();
   }
 
   removeEntry(i: number, entryI: number) {
     this.queriesList[i].removeQuery(entryI);
+  }
+
+  closeModal(event: Event) {
+    const target = event.target;
+    const currentTarget = event.currentTarget;
+    if (target == currentTarget) {
+      this.cleanQueryForm();
+    }
+  }
+
+  cleanQueryForm() {
+    this.queryForm.show = false;
+    this.queryForm.form.setValue({ name: "", type: "group" });
   }
 }

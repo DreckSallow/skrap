@@ -1,6 +1,6 @@
 <div class="qm-content">
   <header class="qm-header">
-    <button class="button th-invert" (click)="addQuery()">
+    <button class="button th-invert" (click)="queryForm.show=true">
       Add Query <app-icon name="+" width="16px" height="16px" fill="white"></app-icon>
     </button>
   </header>
@@ -46,4 +46,29 @@
       </div>
     </li>
   </ul>
+</div>
+
+<div class="modal-back" *ngIf="queryForm.show" (click)="closeModal($event)">
+  <form class="th-bg modal-content" (ngSubmit)="createQuery()" [formGroup]="queryForm.form">
+    <label>
+      Name:
+      <input type="text" formControlName="name" />
+    </label>
+    <div class="modal-form-radio">
+      <label class="input-radio">
+        <span>Group:</span>
+        <input type="radio" value="group" name="type" formControlName="type" />
+        <span class="input-radio-mask"></span>
+      </label>
+      <label class="input-radio">
+        <span>List:</span>
+        <input type="radio" value="list" name="type" formControlName="type" />
+        <span class="input-radio-mask"></span>
+      </label>
+    </div>
+    <div class="modal-buttons">
+      <button (click)="cleanQueryForm()" class="button" type="button">Cancel</button>
+      <button type="submit" class="th-invert button" [disabled]="!queryForm.form.valid">Create</button>
+    </div>
+  </form>
 </div>
