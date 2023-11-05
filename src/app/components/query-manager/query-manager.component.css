@@ -32,6 +32,10 @@ input:not([type="radio"]) {
   border: 1px solid black;
 }
 
+.qm-header>button:first-child:disabled {
+  background-color: #d8dcdc;
+}
+
 .qm-header button {
   font-size: 0.850rem;
   display: flex;
@@ -72,6 +76,7 @@ input:not([type="radio"]) {
   display: flex;
   flex-direction: column;
   gap: 0.4em;
+  overflow-x: auto;
 }
 
 .qm-item-dropdown-content>button {
@@ -87,7 +92,7 @@ input:not([type="radio"]) {
   column-gap: 0.6em;
   align-items: center;
   justify-items: center;
-  overflow-x: auto;
+  font-size: 0.950rem;
 }
 
 .qm-item-dropdown-group>button {
@@ -99,11 +104,12 @@ input:not([type="radio"]) {
   width: 100%;
   height: 100%;
   max-height: 150px;
+  font-size: 0.750rem;
   background-color: #cfcbca;
   border-radius: var(--th-size-sm);
   padding: 0.4em;
+  overflow-y: auto;
 }
-
 
 /*    QUERY_MODAL   */
 
@@ -156,3 +162,9 @@ input:not([type="radio"]) {
 .modal-buttons>button:first-child {
   border: 1px solid black;
 }
+
+
+/*   Responsive */
+
+
+@media screen and (max-width 768px) {}

@@ -1,6 +1,6 @@
 <div class="qm-content">
   <header class="qm-header">
-    <button class="button" (click)="downloadInfo()">
+    <button class="button" (click)="downloadInfo()" [disabled]="queriesList.length<=0">
       Download (json)
     </button>
     <button class="button th-invert" (click)="queryForm.show=true">
