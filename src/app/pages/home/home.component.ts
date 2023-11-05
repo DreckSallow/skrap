@@ -20,7 +20,6 @@ export default class HomeComponent implements AfterViewInit {
 
   onSubmit() {
     if (!this.urlForm.valid) return;
-    console.log(this.urlForm.value);
     this.route.navigate(["/dashboard"], { queryParams: { url: this.urlForm.get("url")?.value } })
   }
 }

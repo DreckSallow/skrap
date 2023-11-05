@@ -93,6 +93,7 @@ export class QueryManagerComponent {
     const { name, type } = this.queryForm.form.value;
     if (name == undefined && type == undefined) return;
     const queryGroup = new QueryGroup(name as string, true, type as QueryGroupType);
+    queryGroup.queries.push(new QueryInfo(""))
     this.queriesList.push(queryGroup);
     this.cleanQueryForm();
   }
@@ -115,6 +116,7 @@ export class QueryManagerComponent {
   }
 
   downloadInfo() {
+    if (this.queriesList.length <= 0) return;
     const data: QueryGroupJson = {};
     this.queriesList.forEach((group) => {
       let info: any;
@@ -128,17 +130,14 @@ export class QueryManagerComponent {
         }, {} as QueriesGroupJson);
       } else {
         info = [];
+        //Obtain data by each query name, using selector.
         const groupSelectors = group.queries.reduce((acc, q) => {
           acc[q.name.value] = q.selector.value;
           return acc;
         }, {} as { [k: string]: string });
 
         const results: any[] = this.extractor?.query_all(group.parentSelector ?? "", groupSelectors);
-        console.log("RESULTS: ", results);
         for (let i = 0; i < group.count; i++) {
-          // info.push({
-          //   selector:
-          // })
           const obj = group.queries.reduce((acc, query) => {
             acc[query.name.value] = {
               selector: query.selector.value,
