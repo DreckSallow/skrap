@@ -1,0 +1,36 @@
+.pointer {
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:root {
+  --th-alpha: 1;
+}
+
+.light-theme {
+  --th-bg: 180, 20%, 98%;
+  --th-color: 0, 1%, 8%;
+}
+
+.dark-theme {
+  --th-bg: 140, 5%, 24%;
+  --th-color: 0, 0%, 100%;
+}
+
+.th-bg {
+  background-color: hsla(var(--th-bg), var(--th-alpha));
+}
+
+.th-color {
+  color: hsla(var(--th-color), var(--th-alpha));
+}
+
+.th-invert {
+  color: hsla(var(--th-bg), var(--th-alpha));
+  background-color: hsla(var(--th-color), var(--th-alpha));
+}

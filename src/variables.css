@@ -1,0 +1,10 @@
+:root {
+  /*   SIZES  */
+  --th-size-xs: 0.150em;
+  --th-size-sm: 0.350em;
+  --th-size-md: 0.500em;
+  --th-size-lm: 0.750em;
+  --th-size-base: 1em;
+  --th-size-lg: 1.250em;
+  /*  */
+}

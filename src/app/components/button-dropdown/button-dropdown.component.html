@@ -1,0 +1,13 @@
+<div class="dropdown-button">
+  <button aria-labelledby="select button" aria-haspopup="listbox">
+    <p (click)="clickItem()">
+      {{selected}}
+    </p>
+    <div (click)="toggleDropdown()">+</div>
+  </button>
+  <ul *ngIf="items.length > 0 && showDropdown" tabindex="0" (blur)="toggleDropdown()">
+    <li *ngFor="let item of items;index as i" (click)="selectItem(i)">
+      {{item}}
+    </li>
+  </ul>
+</div>
