@@ -23,12 +23,17 @@ input:not([type="radio"]) {
 .qm-header {
   display: flex;
   justify-content: center;
+  gap: 0.6em;
   padding: 1em;
+  justify-content: flex-end;
+}
+
+.qm-header>button:first-child {
+  border: 1px solid black;
 }
 
 .qm-header button {
   font-size: 0.850rem;
-  margin-left: auto;
   display: flex;
   gap: 0.3em;
 }

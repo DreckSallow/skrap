@@ -3,6 +3,21 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Extractor } from 'src/deps/extractor/pkg/extractor';
 import { QueryGroup, QueryGroupType, QueryInfo } from 'src/utils';
 
+interface QueriesGroupJson {
+  [k: string]: {
+    selector: string;
+    data: string | null;
+  }
+}
+
+interface QueryGroupJson {
+  [k: string]: {
+    type: QueryGroupType;
+    parentSelector: string | null;
+    info: QueriesGroupJson | Array<QueriesGroupJson>;
+  }
+}
+
 @Component({
   selector: 'app-query-manager',
   templateUrl: './query-manager.component.html',
@@ -97,5 +112,55 @@ export class QueryManagerComponent {
   cleanQueryForm() {
     this.queryForm.show = false;
     this.queryForm.form.setValue({ name: "", type: "group" });
+  }
+
+  downloadInfo() {
+    const data: QueryGroupJson = {};
+    this.queriesList.forEach((group) => {
+      let info: any;
+      if (group.type === "group") {
+        info = group.queries.reduce((acc, query) => {
+          acc[query.name.value] = {
+            selector: query.selector.value,
+            data: query.result
+          }
+          return acc;
+        }, {} as QueriesGroupJson);
+      } else {
+        info = [];
+        const groupSelectors = group.queries.reduce((acc, q) => {
+          acc[q.name.value] = q.selector.value;
+          return acc;
+        }, {} as { [k: string]: string });
+
+        const results: any[] = this.extractor?.query_all(group.parentSelector ?? "", groupSelectors);
+        console.log("RESULTS: ", results);
+        for (let i = 0; i < group.count; i++) {
+          // info.push({
+          //   selector:
+          // })
+          const obj = group.queries.reduce((acc, query) => {
+            acc[query.name.value] = {
+              selector: query.selector.value,
+              data: results[i][query.name.value]
+            }
+            return acc;
+          }, {} as QueriesGroupJson);
+          info.push(obj);
+        }
+      }
+      data[group.name] = {
+        type: group.type,
+        parentSelector: group.parentSelector,
+        info
+      }
+    });
+
+    // Download data
+    const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.download = "skrap-data.json";
+    link.href = window.URL.createObjectURL(blob);
+    link.click();
   }
 }
