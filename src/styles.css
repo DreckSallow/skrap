@@ -1,4 +1,6 @@
 @import url("./sys-styles.css");
+@import url("./widgets.css");
+@import url("./variables.css");
 
 body {
   min-height: 100vh;
@@ -14,10 +16,10 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   * {
-    -webkit-animation: none !important;
+    /*-webkit-animation: none !important;
     animation: none !important;
     -webkit-transition: none !important;
-    transition: none !important;
+    transition: none !important;*/
   }
 }
 

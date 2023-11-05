@@ -1,0 +1,77 @@
+<div class="qm-content">
+  <header class="qm-header">
+    <button class="button" (click)="downloadInfo()" [disabled]="queriesList.length<=0">
+      Download (json)
+    </button>
+    <button class="button th-invert" (click)="queryForm.show=true">
+      Add Query <app-icon name="+" width="16px" height="16px" fill="white"></app-icon>
+    </button>
+  </header>
+  <ul class="qm-list">
+    <li *ngFor="let query of queriesList; index as i">
+      <div class="qm-item-box" (click)="query.toggleOpen()">
+        <h3>{{query.name}}</h3>
+        <button class="badge pointer" [class.list]="query.type=='list'"
+          (click)="toggleType($event,i)">{{query.type}}</button>
+        <p>Input Count: {{query.queries.length}}</p>
+        <box-overlay [hiddenOnClick]="true" hiddenOnTag="LI">
+          <app-icon name="dots-horizontal" height="18px" width="18px" trigger></app-icon>
+          <ng-container content>
+            <ul class="qm-opt-menu">
+              <li (click)="queyMenu('remove',i)">Delete</li>
+              <li (click)="queyMenu('clean',i)">Clean</li>
+            </ul>
+          </ng-container>
+        </box-overlay>
+      </div>
+      <div class="qm-item-dropdown" *ngIf="query.open">
+        <div *ngIf="query.type=='list'" class="qm-item-parent-selector">
+          <span>Parent selector:</span>
+          <input [formControl]="$any(query).parentSel" class="input-style" (input)="queryCount($event.target,i)" />
+          <p>
+            Total count: {{query.count}}
+          </p>
+        </div>
+        <ul class="qm-item-dropdown-content">
+          <li *ngFor="let entry of query.queries,index as entryI" class="qm-item-dropdown-group">
+            <input [formControl]="entry.name" class="input-style" />
+            <input [formControl]="entry.selector" (input)="queryHtml($event,i,entryI)" class="input-style" />
+            <p>
+              {{entry.result ?? "No data"}}
+            </p>
+            <button (click)="removeEntry(i,entryI)" class="button">
+              <app-icon name="x" fill="white" height="18px" width="18px">
+              </app-icon>
+            </button>
+          </li>
+          <button (click)="newEntryQuery(i)" class="button th-invert">New</button>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="modal-back" *ngIf="queryForm.show" (click)="closeModal($event)">
+  <form class="th-bg modal-content" (ngSubmit)="createQuery()" [formGroup]="queryForm.form">
+    <label>
+      Name:
+      <input type="text" formControlName="name" />
+    </label>
+    <div class="modal-form-radio">
+      <label class="input-radio">
+        <span>Group:</span>
+        <input type="radio" value="group" name="type" formControlName="type" />
+        <span class="input-radio-mask"></span>
+      </label>
+      <label class="input-radio">
+        <span>List:</span>
+        <input type="radio" value="list" name="type" formControlName="type" />
+        <span class="input-radio-mask"></span>
+      </label>
+    </div>
+    <div class="modal-buttons">
+      <button (click)="cleanQueryForm()" class="button" type="button">Cancel</button>
+      <button type="submit" class="th-invert button" [disabled]="!queryForm.form.valid">Create</button>
+    </div>
+  </form>
+</div>

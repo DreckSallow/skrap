@@ -1,3 +1,13 @@
+.pointer {
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 :root {
   --th-alpha: 1;
 }
@@ -18,4 +28,9 @@
 
 .th-color {
   color: hsla(var(--th-color), var(--th-alpha));
+}
+
+.th-invert {
+  color: hsla(var(--th-bg), var(--th-alpha));
+  background-color: hsla(var(--th-color), var(--th-alpha));
 }

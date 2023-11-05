@@ -1,0 +1,48 @@
+.button {
+  border-radius: var(--th-size-md);
+  padding: var(--th-size-sm) var(--th-size-md);
+  cursor: pointer;
+}
+
+
+.badge {
+  border-radius: var(--th-size-sm);
+  padding: var(--th-size-xs) var(--th-size-md);
+}
+
+/*  START Input RADIO type*/
+
+.input-radio {
+  cursor: pointer;
+}
+
+.input-radio-mask {
+  height: 1em;
+  width: 1em;
+  min-height: 18px;
+  width: 18px;
+  border-radius: 100%;
+  border: 2px solid black;
+  position: relative;
+}
+
+.input-radio input[type="radio"]:checked+.input-radio-mask::after {
+  display: block;
+}
+
+.input-radio input[type="radio"]:checked+.input-radio-mask {
+  outline: 3px solid #b8b8ba;
+}
+
+.input-radio .input-radio-mask::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  margin: 20%;
+  display: none;
+  border-radius: 100%;
+  background-color: black;
+}
+
+/*  END Input RADIO type*/

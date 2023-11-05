@@ -4,43 +4,7 @@
     <input [value]="url" />
   </div>
 </header>
-<section class="section">
-  <div>
 
-    <header class="section-header">
-      <button (click)="displayDrawer()">Create +</button>
-    </header>
-    <div class="section-queries">
-      <ng-container *ngIf="queries.length > 0; else elseBlock">
-        <div class="section-query-card" *ngFor="let query of queries">
-          <h4>{{query.name}}</h4>
-          <p>{{query.selector}}</p>
-        </div>
-      </ng-container>
-      <ng-template #elseBlock>You don't have queries yet.</ng-template>
-    </div>
-  </div>
+<section class="content">
+  <app-query-manager [extractor]="extractor" class="qm-wrapper"></app-query-manager>
 </section>
-<app-drawer [show]="showDrawer" (showChange)="closeDrawer()" title="Create Query">
-  <div class="section-modal-content">
-    <form class="section-modal-form" [formGroup]="queryForm" (ngSubmit)="queryForm.valid && createQuery()">
-      <div class="form-group-row">
-        <div class="form-input">
-          <label>Name</label>
-          <input type="text" formControlName="queryName" />
-        </div>
-        <div class="form-input">
-          <label>Query</label>
-          <input type="text" formControlName="queryText" (input)="queryHtml(query.value)" #query />
-        </div>
-      </div>
-      <div class="form-query-result">
-        <small>Output:</small>
-        <p>{{queryResult}}</p>
-      </div>
-      <div class="form-submit">
-        <button [disabled]="!queryForm.valid">Submit</button>
-      </div>
-    </form>
-  </div>
-</app-drawer>

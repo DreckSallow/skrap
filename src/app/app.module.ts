@@ -4,7 +4,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePage, DashboardPage } from './pages/';
-import { ButtonDropdownComponent, DrawerComponent } from './components';
+import { BoxOverlayComponent, ButtonDropdownComponent, DrawerComponent, IconComponent, QueryManagerComponent } from './components';
+import { OutlickDirective } from './directives';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,10 @@ import { ButtonDropdownComponent, DrawerComponent } from './components';
     DashboardPage,
     DrawerComponent,
     ButtonDropdownComponent,
+    BoxOverlayComponent,
+    OutlickDirective,
+    IconComponent,
+    QueryManagerComponent
   ],
   imports: [
     BrowserModule,
