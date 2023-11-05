@@ -27,3 +27,13 @@ button {
   display: flex;
   justify-content: center;
 }
+
+.qm-wrapper {
+  width: 80%;
+}
+
+@media screen and (max-width: 768px) {
+  .qm-wrapper {
+    width: 98%;
+  }
+}
