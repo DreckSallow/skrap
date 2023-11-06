@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Extractor } from 'src/deps/extractor/pkg';
+import { environment } from "src/environments/environment";
 //TODO: Find another way to use wasm files.
 //While not remove the below line, this is used to load wasm firstly. :v
 import("src/deps/extractor/pkg");
@@ -49,7 +50,7 @@ export default class DashboardComponent implements OnInit {
 
   createExtractor(url: string) {
     this.setInfo("loading", "Loading data...");
-    fetch(`http://localhost:8000/skrap?url=${url}`).then(async (r) => {
+    fetch(`${environment.apiUrl}?url=${url}`).then(async (r) => {
       this.extractor = Extractor.new(await r.text());
       this.setInfo("success", "");
     }).catch((_e) => {
