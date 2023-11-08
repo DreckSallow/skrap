@@ -51,11 +51,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Show folders
-        run: /
-          pwd
-          ls .
-      
-      - name: Deploy to gihtub pages
+        - name: Deploy to gihtub pages
         id: deployment
         uses: actions/deploy-pages@v2
