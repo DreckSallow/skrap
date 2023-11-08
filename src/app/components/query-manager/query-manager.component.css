@@ -5,7 +5,7 @@ input:not([type="radio"]) {
 }
 
 input:not([type="radio"]):focus {
-  outline: 3px solid #d7d7d7;
+  outline: 4px solid #d7d7d7;
 }
 
 .qm-opt-menu>li {
@@ -131,7 +131,7 @@ input:not([type="radio"]):focus {
 }
 
 .modal-content {
-  padding: 1em;
+  padding: 2em;
   border-radius: 8px;
 }
 
@@ -146,6 +146,7 @@ input:not([type="radio"]):focus {
   gap: 0.3em;
   align-items: center;
   cursor: pointer;
+  font-size: 1.1rem;
 }
 
 .modal-form-radio {

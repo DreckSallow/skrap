@@ -23,7 +23,7 @@ button {
 }
 
 .header-content form input {
-  padding: 0.4em 0.6em;
+  padding: 0.8em;
   border-radius: var(--th-size-sm);
   border: 1px solid black;
 }
@@ -33,6 +33,8 @@ button {
 }
 
 .header-content form button {
+  /*font-weight: bold;*/
+  letter-spacing: 0.1em;
   padding-inline: var(--th-size-lg);
 }
 
