@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --output-path dist --base-href /skrap/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
