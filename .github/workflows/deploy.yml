@@ -46,9 +46,7 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name: Show folders
-        run: |
-          ls
-          ls dist
+        run: ls
       
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
