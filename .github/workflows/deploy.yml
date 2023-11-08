@@ -36,7 +36,7 @@ jobs:
         uses: actions/configure-pages@v3      
 
       - name: Build the webapp
-        run: npm run build --output-path dist --base-href /skrap/ 
+        run: ng build --output-path dist --base-href /skrap/ 
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
