@@ -27,7 +27,7 @@ jobs:
         run: cargo install wasm-pack
 
       - name: Build the extractor rust folder
-        run: wasm-pack build --release --target bundler
+        run: wasm-pack build --release --target bundler ./src/deps/extractor
       
       - name: Build the webapp
         run: npm run build
