@@ -35,16 +35,25 @@ jobs:
         run: npm run build
 
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Setup pages
         uses: actions/configure-pages@v3
+
+      - name: Show folders
+        run: |
+          ls
+          ls dist
       
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./dist
+          path: dist/skrap/
       
       - name: Deploy to gihtub pages
         id: deployment
