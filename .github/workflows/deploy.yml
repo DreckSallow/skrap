@@ -52,5 +52,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Deploy to gihtub pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          id: deployment
+          uses: actions/deploy-pages@v2
