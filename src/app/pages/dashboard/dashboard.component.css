@@ -15,10 +15,29 @@ button {
   margin-bottom: 1em;
 }
 
-.header-content input {
-  padding: 1em 1.5em;
-  border-radius: 5px;
-  border: 1px solid gray;
+.header-content form {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.header-content form input {
+  padding: 0.4em 0.6em;
+  border-radius: var(--th-size-sm);
+  border: 1px solid black;
+}
+
+.header-content form input:focus {
+  outline: 3px solid #d7d7d7;
+}
+
+.header-content form button {
+  padding-inline: var(--th-size-lg);
+}
+
+.header-content form button:disabled {
+  opacity: 0.8;
 }
 
 .content {
@@ -26,6 +45,14 @@ button {
   padding: 1em 2em;
   display: flex;
   justify-content: center;
+}
+
+.msg-err {
+  padding: var(--th-size-lg) var(--th-size-lg);
+  border-radius: var(--th-size-sm);
+  border: 1px solid #ae2422;
+  background-color: #ecc8c5;
+  color: #ae2422;
 }
 
 .qm-wrapper {

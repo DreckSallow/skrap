@@ -26,6 +26,10 @@
   position: relative;
 }
 
+.input-radio input[type="radio"] {
+  display: none;
+}
+
 .input-radio input[type="radio"]:checked+.input-radio-mask::after {
   display: block;
 }

@@ -1,10 +1,19 @@
 <header class="header">
   <div class="header-content">
     <h1>Skrap Dashboard</h1>
-    <input [value]="url" />
+    <form (ngSubmit)="changeUrl()" [formGroup]="urlForm">
+      <input formControlName="url" type="url" />
+      <button type="submit" [disabled]="!urlForm.valid" class="button th-invert">Send</button>
+    </form>
   </div>
 </header>
-
 <section class="content">
-  <app-query-manager [extractor]="extractor" class="qm-wrapper"></app-query-manager>
+  <p *ngIf="info.status=='loading'" class="msg-loading">
+    Loading....
+  </p>
+  <p *ngIf="info.status==='error'" class="msg-err">
+    {{info.message}}
+  </p>
+  <app-query-manager [extractor]="extractor" class="qm-wrapper" *ngIf="info.status==='success'">
+  </app-query-manager>
 </section>

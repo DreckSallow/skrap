@@ -1,0 +1,45 @@
+
+name: Deploy Skrap website
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18.14.x
+          cache: npm
+      
+      - install: Install
+        run: npm ci
+
+      - name: Setup Rust
+      - uses: dtolnay/rust-toolchain@stable
+        run: cargo install wasm-pack
+
+      - name: Build the extractor rust folder
+        run: wasm-pack build --release --target bundler
+      
+      - name: Build the webapp
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup pages
+        uses: actions/configure-pages@v3
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist
+      - name: Deploy to gihtub pages
+        id: deployment
+        uses: actions/deploy-pages@v2

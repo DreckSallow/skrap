@@ -45,7 +45,7 @@
 }
 
 .home-content-form input:focus {
-  outline: 2px solid #9fcca0;
+  outline: 4px solid #d7d7d7;
 }
 
 .home-content-form button {
@@ -64,9 +64,9 @@
 }
 
 .home-content-form button:focus {
-  outline: 3px solid #9fcca0;
+  outline: 4px solid #d7d7d7;
 }
 
 .home-content-form .ng-touched.ng-invalid {
-  outline: 3px solid #d98f84;
+  outline: 4px solid #d98f84;
 }
